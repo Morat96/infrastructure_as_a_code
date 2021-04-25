@@ -1,0 +1,6 @@
+---
+- hosts: vms
+  become: yes
+  roles:
+    - ansible-role-partition
+
