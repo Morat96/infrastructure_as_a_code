@@ -23,3 +23,10 @@
         - "DNS:{{ ansible_hostname }}"
         - "IP:{{ ip }}"
 
+- name: Set up a Docker Swarm on VMs
+  hosts: docker_swarm_manager, docker_swarm_worker
+  become: true
+  roles:
+    - ansible-dockerswarm
+  vars:
+    docker_swarm_interface: "eth1"
