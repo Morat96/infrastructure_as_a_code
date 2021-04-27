@@ -1,0 +1,13 @@
+---
+# This is an example playbook to execute Ansible tests.
+- name: Verify
+  hosts: all
+
+  tasks:
+  - name: Verify that the new partition exists
+    assert:
+      that: ansible_facts['mounts'] | length > 1
+  - name: Verify that the partition 'sda2' has 40GB
+    debug:
+      var: ansible_facts.devices.sda.partitions.sda2.size
+    failed_when: ansible_facts.devices.sda.partitions.sda2.size != "40.00 GB"
