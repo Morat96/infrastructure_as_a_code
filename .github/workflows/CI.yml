@@ -1,0 +1,58 @@
+---
+name: CI
+'on': [push]
+
+jobs:
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@master
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install ansible ansible-lint yamllint
+
+      - name: Lint code.
+        run: |
+          ansible-lint playbook.yml
+          yamllint .
+
+  molecule:
+    name: Molecule
+    runs-on: macos-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: roles/ansible-role-partition
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Vagrant and Virtualbox.
+        run: |
+          brew install --cask vagrant
+          brew install --cask virtualbox
+
+      - name: install Vagrant disksize plugin.
+        run: vagrant plugin install vagrant-disksize
+
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule python-vagrant molecule-vagrant
+
+      - name: Run molecule tests.
+        run: |
+          cd ${{ github.workspace }}/roles/ansible-role-partition/roles/ansible-role-partition
+          molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
