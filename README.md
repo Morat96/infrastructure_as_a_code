@@ -1,4 +1,7 @@
 # Infrastructure_as_a_Code
+
+[![CI](https://github.com/Morat96/infrastructure_as_a_code/workflows/CI/badge.svg)](https://github.com/Morat96/infrastructure_as_a_code/actions?query=workflow%3ACI)
+
 Ansible code challenge
 
 ## What the playbook does
