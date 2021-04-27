@@ -30,3 +30,24 @@
     - ansible-dockerswarm
   vars:
     docker_swarm_interface: "eth1"
+
+- name: Create a test service "web1" from the local machine to the Docker Swarm
+  hosts: localhost
+  tasks:
+    - name: Check if the service "web1" already exists
+      shell: docker service ls -f name=web1 | grep '\sweb1\s' | awk '{ print $1 }'
+      environment:
+        DOCKER_HOST: "tcp://192.168.77.21:2376"
+        DOCKER_TLS_VERIFY: 1
+      register: service_exists
+      changed_when: false
+    - name: Create a nginx service "web1" on the Docker Swarm
+      command: docker service create --replicas 2 -p 80:80 --name web1 nginx
+      environment:
+        DOCKER_HOST: "tcp://192.168.77.21:2376"
+        DOCKER_TLS_VERIFY: 1
+      register: docker_service_deploy_result
+      when: service_exists.stdout | length == 0
+    - name: Show the result
+      debug:
+        var: docker_service_deploy_result
