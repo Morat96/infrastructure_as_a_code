@@ -1,6 +1,14 @@
 ---
-- hosts: vms
-  become: yes
+- name: Create a partition of 40GB for Docker and install Docker
+  hosts: machines
+  become: true
+  tasks:
+    - name: Make sure Docker daemon starts automatically at system startup
+      service:
+        name: docker
+        state: started
+        enabled: true
   roles:
     - ansible-role-partition
+    - ansible-role-docker
 
