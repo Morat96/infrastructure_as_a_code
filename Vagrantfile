@@ -15,13 +15,17 @@ Vagrant.configure('2') do |config|
 
       # Only execute once the Ansible provisioner,
       # when all the machines are up and ready.
-      #if machine_id == N
-      #  machine.vm.provision :ansible do |ansible|
-      #    # Disable default limit to connect to all the machines
-      #    ansible.limit = "all"
-      #    ansible.playbook = "playbook.yml"
-      #  end
-      #end
+      if machine_id == N
+        machine.vm.provision :ansible do |ansible|
+          # Disable default limit to connect to all the machines
+          ansible.limit = "all"
+          ansible.inventory_path = 'hosts'
+          ansible.playbook = "playbook.yml"
+        end
+        machine.vm.provision :serverspec do |spec|
+          spec.pattern = 'scripts/*_spec.rb' # pattern for test files
+        end
+      end
     end
   end
 end
