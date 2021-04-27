@@ -75,6 +75,13 @@ Install `jmespath` with pip:
 
 `$ pip install jmespath==0.9.3`
 
+Change the `hosts` file in order to provide the root password of localhost. You simply have to type your sudo password in place of "yourPassword".
+
+```
+[local]
+localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3 ansible_sudo_pass=yourPassword
+```
+
 ### Run the code
 
 `$ vagrant up`
