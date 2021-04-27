@@ -2,7 +2,7 @@ require_relative './vagrant/key_authorization'
 
 Vagrant.configure('2') do |config|
   config.vm.box = 'centos/8'
-  config.disksize.size = '50GB'
+  config.disksize.size = '52GB'
   config.ssh.insert_key = false
   authorize_key_for_root config, '~/.ssh/id_dsa.pub', '~/.ssh/id_rsa.pub'
 

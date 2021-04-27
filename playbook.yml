@@ -1,6 +1,6 @@
 ---
 - name: Create a partition of 40GB for Docker and install Docker
-  hosts: machines
+  hosts: docker_swarm_manager, docker_swarm_worker
   become: true
   tasks:
     - name: Make sure Docker daemon starts automatically at system startup
@@ -11,4 +11,15 @@
   roles:
     - ansible-role-partition
     - ansible-role-docker
+
+- name: Securely expose the Docker Daemon REST APIs
+  hosts: docker_swarm_manager, docker_swarm_worker
+  roles:
+    - role: ansible-role-docker-remote-api
+      docker_remote_client_use_certs_as_default: true
+      docker_remote_server_force_deploy: true
+      docker_remote_client_become: true
+      docker_remote_certs_server_additional_subjects:
+        - "DNS:{{ ansible_hostname }}"
+        - "IP:{{ ip }}"
 

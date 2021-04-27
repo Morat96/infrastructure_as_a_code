@@ -1,3 +1,6 @@
 [submodule "roles/ansible-role-docker"]
 	path = roles/ansible-role-docker
 	url = https://github.com/geerlingguy/ansible-role-docker.git
+[submodule "roles/ansible-role-docker-remote-api"]
+	path = roles/ansible-role-docker-remote-api
+	url = https://github.com/Morat96/ansible-role-docker-remote-api.git

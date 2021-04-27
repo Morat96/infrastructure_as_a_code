@@ -1,3 +1,8 @@
-[machines]
-machine1.challenge
-machine2.challenge
+[docker_swarm_manager]
+machine1.challenge ip=192.168.77.21
+
+[docker_swarm_worker]
+machine2.challenge ip=192.168.77.22
+
+[local]
+localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3 ansible_sudo_pass=yourPassword
